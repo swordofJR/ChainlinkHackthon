@@ -1,0 +1,80 @@
+server:
+  port: 8399
+  max-http-header-size: 10240000
+  tomcat:
+    max-http-form-post-size: 10240000
+spring:
+  application:
+    name: blockchain-copyright-system
+  profiles:
+    active: dev
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.108.136.238:3306/bcs?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 73ffac5cff92aab8
+    druid:
+      initialSize: 10   #初始化连接个数
+      minIdle: 10       #最小空闲连接个数
+      maxActive: 100    #最大连接个数
+      maxWait: 60000    #获取连接时最大等待时间，单位毫秒。
+      timeBetweenEvictionRunsMillis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 30000     #配置一个连接在池中最小生存的时间，单位是毫秒
+      validationQuery: select 'x' #用来检测连接是否有效的sql，要求是一个查询语句。
+      testWhileIdle: true       #建议配置为true，不影响性能，并且保证安全性。如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      testOnBorrow: true        #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      testOnReturn: false       #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      poolPreparedStatements: false #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      maxPoolPreparedStatementPerConnectionSize: -1 #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      filters: stat,wall #通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat，日志用的filter:log4j，防御sql注入的filter:wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      useGlobalDataSourceStat: false # 合并多个DruidDataSource的监控数据
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cache:
+    type: redis
+  redis:
+    host: 49.234.147.30
+    port: 6388
+    password: TMH!=@$%*90LSH##+_57428
+    database: 0
+    lettuce:
+      pool:
+        max-active: 100
+        max-wait: -1ms # 连接池最大阻塞等待时间，负值表示没有限制
+        max-idle: 8
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mail:
+    username: 1054109492@qq.com
+    password: ypygejiowbkmbfdi
+    host: smtp.qq.com
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/cuit/alias/mapper/xml/*.xml
+  type-aliases-package: com.cuit.alias.entity
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    root: debug
+
+jwt:
+  #设置token的过期时间，单位为秒
+  expiration: 36000 #10小时
+  #设置token的id
+  id: tokenId
+  #设置密钥
+  secret: kho2x9jlkuPymtGcrd5QxjidPsaS3F6Tfx4phS96Y1YjDOJhXEAKtFVegr9Mqqnt
+  tokenHeader: Authorization #JWT存储的请求头
+  tokenHead: Bearer  #JWT负载中拿到开头

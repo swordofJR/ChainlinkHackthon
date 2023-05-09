@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuit.alias.mapper.UserMapper">
+
+    <select id="getUserRoles" resultType="com.cuit.alias.entity.Roles">
+        SELECT r.*
+        FROM t_user_role ur
+                 JOIN t_roles r
+                      ON ur.role_id = r.id
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="getUserResources" resultType="com.cuit.alias.entity.Resource">
+        SELECT r.*
+        FROM t_role_resource rr
+                 JOIN t_resource r ON rr.resource_id = r.id
+        WHERE role_id = #{roleId}
+    </select>
+
+<!--    <select id="getAllUserInfo" resultType="com.cuit.alias.entity.UserMessage">-->
+<!--        SELECT u.*,r.`name`,r.`value`,re.`re_value`,re.`uri`-->
+<!--        FROM t_user_role ur-->
+<!--                JOIN t_roles r ON r.`id` = ur.`role_id`-->
+<!--                JOIN t_role_resource rr ON rr.`role_id` = ur.`role_id`-->
+<!--                JOIN t_user u ON u.`id` = ur.`user_id`-->
+<!--                JOIN t_resource re ON re.`id` = rr.`resource_id` -->
+<!--    </select>-->
+</mapper>
